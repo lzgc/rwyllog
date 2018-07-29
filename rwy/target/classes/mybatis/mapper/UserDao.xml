@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rwy.dao.UserDao" >
+	 <select id="getUserByLoginUserName" resultType="com.rwy.entity.User">
+	 	select * from rwy_user
+	 </select>
+	 
+	 <select id="selectUserByLoginName" resultType="com.rwy.entity.User">
+	 	select * from rwy_user where loginname = #{loginname}
+	 </select>
+	 
+	 <select id="getUser" resultType="com.rwy.entity.User">
+	 	select id,loginname,name,phone from rwy_user
+	 </select>
+</mapper>

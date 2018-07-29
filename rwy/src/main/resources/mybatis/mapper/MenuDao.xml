@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rwy.dao.MenuDao" >
+	<select id="selectMenuByLoginName" resultType="com.rwy.entity.Menu">
+		select rwy_menu.* from rwy_menu 
+			inner join rwy_role_menu on rwy_role_menu.menuid =  rwy_menu.id 
+				inner join rwy_role on rwy_role.roleCode = rwy_role_menu.roleid 
+					inner join rwy_user on rwy_user.roleid = rwy_role.id 
+						where rwy_user.loginname = #{loginname}
+	</select>
+</mapper>

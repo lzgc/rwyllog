@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rwy.dao.LogDao" >
+	<resultMap type="com.rwy.entity.Log" id="LogMap">
+		<id property="id" column="id" />
+		<result	property="title" column="title"/>
+		<result	property="time" column="time"/>
+		<result	property="icaddress" column="icaddress"/>
+		<result	property="icnum" column="icnum"/>
+		<result	property="icp" column="icp"/>
+		<result	property="contact" column="contact"/>
+		<result	property="phone" column="phone"/>
+		<result	property="QQ" column="QQ"/>
+		<result	property="cause" column="cause"/>
+		<result	property="solution" column="solution"/>
+		<result	property="sop" column="sop"/>
+		<result	property="keyword" column="keyword"/>
+		<association property="user" javaType="com.rwy.entity.User">
+			<id property="id" column="pid"/>
+			<result property="name" column="pname"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectLogById" resultType="com.rwy.entity.Log">
+		select * from rwy_log where userid = #{id}
+	</select>
+	<insert id="saveLog" parameterType="com.rwy.entity.Log" keyProperty="id">
+		insert into rwy_log
+			values(null,#{user.id},#{title},now(),#{icaddress},#{icnum},#{icp},#{contact},#{phone},#{QQ},#{cause},#{solution},#{sop},#{keyword})
+	</insert>
+	
+	<select id="list" resultType="com.rwy.entity.Log">
+		select * from rwy_log where 1= 1
+			<if test="keyword != null and keyword != ''">
+				and keyword = #{keyword}
+			</if>
+			<if test="starttime != null and starttime != '' and endtime != null and endtime != ''">
+				and time between #{starttime} and #{endtime}
+			</if>
+				and userid = #{id}	
+	</select>
+	
+	<select id="getlist" resultType="com.rwy.entity.Log">
+		select * from rwy_log where userid = #{id} 
+	</select>
+	
+	<select id="listAll" resultMap="LogMap">
+		SELECT rwy_log.id,rwy_user.name pname,title,time,icaddress,icnum,icp,contact,cause,rwy_log.phone,QQ,solution,sop,keyword FROM `rwy_log` inner join rwy_user on rwy_user.id = rwy_log.userid where 1= 1
+			<if test="keyword != null and keyword != ''">
+				and keyword = #{keyword}
+			</if>
+			<if test="starttime != null and starttime != '' and endtime != null and endtime != ''">
+				and time between #{starttime} and #{endtime}
+			</if>
+	</select>
+	
+	<select id="getlistAll" resultMap="LogMap">
+		SELECT rwy_log.id,rwy_user.name pname,title,time,icaddress,icnum,icp,contact,cause,rwy_log.phone,QQ,solution,sop,keyword FROM `rwy_log` inner join rwy_user on rwy_user.id = rwy_log.userid
+	</select>
+</mapper>
